@@ -11,10 +11,21 @@
     <servlet-name>UploadImg</servlet-name>
     <servlet-class>com.inm.servlet.UploadImg</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>NewArtcle</servlet-name>
+    <servlet-class>com.inm.servlet.NewArtcle</servlet-class>
+  </servlet>
+
 
   <servlet-mapping>
     <servlet-name>UploadImg</servlet-name>
     <url-pattern>/uploadimg</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>NewArtcle</servlet-name>
+    <url-pattern>/newartcle</url-pattern>
   </servlet-mapping>	
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
