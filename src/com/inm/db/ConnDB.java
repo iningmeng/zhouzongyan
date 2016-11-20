@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class ConnDB {
 	//��ݿ���
-	private static final String DB = "library";
+	private static final String DB = "blog";
 	//��ݿ��û���
 	private static final String DB_USER = "root";
 	//��ݿ�����

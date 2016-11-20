@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>发表文章</title>
+		<link rel="stylesheet" type="text/css" href="css/wangEditor.min.css">
+		<script type="text/javascript" src="js/lib/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="js/wangEditor.min.js"></script>
+		<style>
+			body{
+				background-image: url(images/bg.jpg);
+			}
+			#main{
+				margin-left: auto;
+				margin-right: auto;
+				width: 100%;
+				text-align: center;
+			}
+			#header{
+				height: 50px;
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="header">
+			
+		</div>
+		<hr style="margin: 0; padding: 0; width: 100%;" />
+		<div id="main">
+			<h1>发表博客</h1>
+			标题：<input type="text" id="title" /><br />
+			<span style="margin-left: -120px; margin-top: 20px;">分类：</span><select id="category" style="margin-top: 20px;">
+				<option>程序</option>
+				<option>数码</option>
+				<option>生活</option>
+			</select>
+			<div style="width:50%;margin-left:auto;margin-right:auto; margin-top:5%;">
+			    <!--用当前元素来控制高度-->
+			    <div id="editor" style="height:300px;">
+			        <p>请输入内容...</p>
+			    </div>
+			</div>
+			<script type="text/javascript">
+				wangEditor.config.mapAk = 'XeoBATnzf1ZYkajz5ifF0WO9aDpaG7xo';
+			    var editor = new wangEditor('editor');
+			    editor.config.mapAk = 'XeoBATnzf1ZYkajz5ifF0WO9aDpaG7xo';
+			    editor.config.uploadImgUrl = '/blog/uploadimg';
+			    editor.create();
+			    editor.config.uploadImgFileName = 'uploadImg';
+			</script>
+			<br><br>
+			<input id="upload" type="image" src="images/upload.png" style="border:none; outline: 0;" onclick="upload()">
+			<script type="text/javascript">
+				function upload(){
+					
+					$.ajax({
+						type:"POST",
+						url:"/blog/newarticle",
+						
+						data:"{'title':'"+document.getElementById("title").value+"','category':'"+document.getElementById("category").value+"','message':'"+editor.$txt.html()+"','formtext':'"+editor.$txt.formatText()+"'}",
+						success: function(data){
+							alert("成功");
+						},
+						error: function(){
+							alert("失败");
+						}
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>

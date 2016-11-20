@@ -16,10 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.inm.db.ConnDB;
-import com.inm.entity.Article;
+import com.inm.entity.GetArticle;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
-public class NewArtcle extends HttpServlet {
+public class NewArticle extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -38,19 +38,27 @@ public class NewArtcle extends HttpServlet {
 		while ((temp = bReader.readLine()) != null) {
 			sb.append(temp);
 		}
+		
 		bReader.close();
 		Gson gson = new Gson();
-		Article article = new Article();
-		article = gson.fromJson(sb.toString(), Article.class);
+		GetArticle article = new GetArticle();
+		article = gson.fromJson(sb.toString(), GetArticle.class);
 		ConnDB connDB = new ConnDB();
+		boolean result = true;
 		try {
 			connDB.openConn();
 			Statement stmt = connDB.getConn().createStatement();
-			sql = "insert into artcles values(null,1,'"+UUID.randomUUID()+"','"+article.getTitle()+"','"+article.getCategory()+format.format(new Date())+"','"+article.getMessage()+"')";
-			stmt.execute(sql);
+			sql = "insert into articles values(null,1,'"+UUID.randomUUID()+"','"+article.getTitle()+"','"+article.getCategory()+"','"+format.format(new Date())+"','"+article.getMessage()+"','"+article.getFormtext()+"')";
+			result = stmt.execute(sql);
+			if (!result) {
+				response.getWriter().print("success");
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+
 		
 	}
 
