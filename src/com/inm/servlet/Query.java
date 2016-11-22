@@ -58,7 +58,7 @@ public class Query extends HttpServlet {
 		String category = request.getParameter("category");
 		
 		String title = request.getParameter("title");
-		
+		System.err.println(by);
 		//各种判断
 		if (allData!=null && allData.equals("true")) {    //如果有allData参数就取出所有。。然后结束
 			//得到所有数据
@@ -84,7 +84,7 @@ public class Query extends HttpServlet {
 	}
 	
 	private String getSql(int page) {
-		return "select * from articles order by time desc limit " + page  + ", " + page*LATEST_COUNT;
+		return "select * from articles order by time desc limit " + (page-1)*LATEST_COUNT  + ", " + page*LATEST_COUNT;
 	}
 	
 	private String getSqlByAnd(String account, String indexs, String category, String title) {

@@ -12,9 +12,11 @@
 <link href="css/style.css" rel='stylesheet' type='text/css' />
 <link rel="stylesheet" href="css/morris.css" type="text/css"/>
 <!-- Graph CSS -->
-<link href="css/font-awesome.css" rel="stylesheet"> 
+<link href="css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/wangEditor.min.css"> 
 <!-- jQuery -->
 <script src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="js/wangEditor.min.js"></script>
 <!-- //jQuery -->
 
 <!-- lined-icons -->
@@ -212,107 +214,66 @@
 	<ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>博文详情</li>
             </ol>
-	<div class="inbox-mail" id="inbox-mail">
-		<div id="wz"></div>
-		<div id="pl">
-			<textarea id="comment"  style="margin-left: auto; margin-right: auto; width: 50%; height: 30%; margin-left: 3%; margin-top: 30px;"></textarea>
-			<button onclick="addComment()" >添加评论</button>
-		</div>
-		<div class="comments" id="comments">
-			
-		</div>
-	</div>
-	<style> 
-           p{text-indent:2em}
-           .comments{
-           		margin-top:80px;
-				width: 100%;
-				height: 200px;
-			}
-			
-			.name_sty{
-				height: 50%;
-				float: left;
-				margin: 10px 0px 0px 20px;
-			}
-			.data_sty{
-				width: 50%;
-				float: left;
-				margin: 10px 0px 0px 20px;
-			}
-			.comment{
-				width: 100%;
-				height: 130px;
-				float: left;
-				font-size: x-large;
-				margin: 20px 0px 20px 20px;
-			}
-            
-	</style>
-   <script type="text/javascript">
-   function addComment(){
-   		$.ajax({
-		type:"POST",
-		url:"/blog/AddComment",
-		data:"indexs="+GetQueryString("indexs")+"&Comment="+document.getElementById("comment").value+"&account=1",
-		
-		success: function(){
-			getComments();
-		},
-		error: function(){
-			alert("失败");
-		}
-	});
-   }
-	function GetQueryString(name)
-	{
-	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-	     var r = window.location.search.substr(1).match(reg);
-	     if(r!=null)return  unescape(r[2]); return null;
-	}
-	var html="";
-	$.ajax({
-		type:"POST",
-		url:"/blog/query",
-		data:"indexs="+GetQueryString("indexs")+"&by=and",
-		dataType:"json",
-		success: function(data){
-			
-			html = "<h3  style=\"text-align: center; color: red;\">"+data[0].title+"</h3><h5 style=\"text-align: center; font-size: 10px;\">"+data[0].time+"</h5>"+data[0].message;
-			$("#wz").append(html);
-		},
-		error: function(){
-			alert("失败");
-		}
-	});
-	var commentsHTML="";
-	function getComments(){
-		$.ajax({
-			type:"POST",
-			url:"/blog/SearchComment",
-			data:"indexs="+GetQueryString("indexs")+"&orderBy=indexs",
-			dataType:"json",
-			success: function(data){
-				for(var i=0;i<data.length;i++){
-					commentsHTML += "<div class=\"name_info\"><p class=\"name_sty\"> "+data[i].account+"</p><p class=\"data_sty\">"+data[i].time+"</p></div>"+
-									"<div class=\"comment\">"+data[i].message+"</div>";
+<div id="main">
+			<h1>发表博客</h1>
+			标题：<input type="text" id="title" /><br />
+			<span style="margin-left: -120px; margin-top: 20px;">分类：</span><select id="category" style="margin-top: 20px;">
+				<option>程序</option>
+				<option>数码</option>
+				<option>生活</option>
+			</select>
+			<div style="width:50%;margin-left:auto;margin-right:auto; margin-top:5%;">
+			    <!--用当前元素来控制高度-->
+			    <div id="editor" style="height:300px;">
+			        <p>请输入内容...</p>
+			    </div>
+			</div>
+			<script type="text/javascript">
+				wangEditor.config.mapAk = 'XeoBATnzf1ZYkajz5ifF0WO9aDpaG7xo';
+			    var editor = new wangEditor('editor');
+			    editor.config.mapAk = 'XeoBATnzf1ZYkajz5ifF0WO9aDpaG7xo';
+			    editor.config.uploadImgUrl = '/blog/uploadimg';
+			    editor.create();
+			    editor.config.uploadImgFileName = 'uploadImg';
+			</script>
+			<br><br>
+			<input id="upload" type="image" src="images/upload.png" style="border:none; outline: 0;" onclick="upload()">
+			<script type="text/javascript">
+				function upload(){
+					
+					$.ajax({
+						type:"POST",
+						url:"/blog/newarticle",
+						
+						data:"{'title':'"+document.getElementById("title").value+"','category':'"+document.getElementById("category").value+"','message':'"+editor.$txt.html()+"','formtext':'"+editor.$txt.formatText()+"'}",
+						success: function(data){
+							alert("成功");
+						},
+						error: function(){
+							alert("失败");
+						}
+					});
 				}
-				
-				document.getElementById("comments").innerHTML = commentsHTML;
-				commentsHTML = "";
-				
-			},
-			error: function(){
-				alert("失败");
+			</script>
+		</div>
+		<style>
+			body{
+				background-image: url(images/bg.jpg);
 			}
-		});
-	}
-	getComments();
-</script>
+			#main{
+				margin-left: auto;
+				margin-right: auto;
+				width: 100%;
+				text-align: center;
+			}
+			#header{
+				height: 50px;
+				width: 100%;
+			}
+		</style>
 <!-- script-for sticky-nav -->
 		<script>
 		$(document).ready(function() {
-			$(".sidebar-icon").click();
 			 var navoffeset=$(".header-main").offset().top;
 			 $(window).scroll(function(){
 				var scrollpos=$(window).scrollTop(); 
@@ -338,13 +299,13 @@
 		<!--/sidebar-menu-->
 				<div class="sidebar-menu">
 					<header class="logo1">
-						<a href="javascript:void(0);" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> 
+						<a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> 
 					</header>
 						<div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
                            <div class="menu">
 									<ul id="menu" >
 										<li><a href="index.html"><i class="fa fa-tachometer"></i> <span>首页</span><div class="clearfix"></div></a></li>
-									<li><a href="gallery.html"><i class="fa fa-picture-o" aria-hidden="true"></i><span>发博客</span><div class="clearfix"></div></a></li>
+									<li><a href="gallery.html"><i class="fa fa-picture-o" aria-hidden="true"></i><span>Gallery</span><div class="clearfix"></div></a></li>
 									<li id="menu-academico" ><a href="charts.html"><i class="fa fa-bar-chart"></i><span>Charts</span><div class="clearfix"></div></a></li>
 									 <li id="menu-academico" ><a href="#"><i class="fa fa-list-ul" aria-hidden="true"></i><span> Short Codes</span> <span class="fa fa-angle-right" style="float: right"></span><div class="clearfix"></div></a>
 										   <ul id="menu-academico-sub" >
