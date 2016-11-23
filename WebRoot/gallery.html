@@ -212,7 +212,7 @@
 				</div>
 <!--heder end here-->
 	<ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>博文详情</li>
+                <li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>发博客</li>
             </ol>
 <div id="main">
 			<h1>发表博客</h1>
@@ -274,6 +274,7 @@
 <!-- script-for sticky-nav -->
 		<script>
 		$(document).ready(function() {
+			$(".sidebar-icon").click();
 			 var navoffeset=$(".header-main").offset().top;
 			 $(window).scroll(function(){
 				var scrollpos=$(window).scrollTop(); 
@@ -299,13 +300,13 @@
 		<!--/sidebar-menu-->
 				<div class="sidebar-menu">
 					<header class="logo1">
-						<a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> 
+						<a href="javascript:void(0);" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> 
 					</header>
 						<div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
                            <div class="menu">
 									<ul id="menu" >
 										<li><a href="index.html"><i class="fa fa-tachometer"></i> <span>首页</span><div class="clearfix"></div></a></li>
-									<li><a href="gallery.html"><i class="fa fa-picture-o" aria-hidden="true"></i><span>Gallery</span><div class="clearfix"></div></a></li>
+									<li><a href="gallery.html"><i class="fa fa-picture-o" aria-hidden="true"></i><span>发博客</span><div class="clearfix"></div></a></li>
 									<li id="menu-academico" ><a href="charts.html"><i class="fa fa-bar-chart"></i><span>Charts</span><div class="clearfix"></div></a></li>
 									 <li id="menu-academico" ><a href="#"><i class="fa fa-list-ul" aria-hidden="true"></i><span> Short Codes</span> <span class="fa fa-angle-right" style="float: right"></span><div class="clearfix"></div></a>
 										   <ul id="menu-academico-sub" >

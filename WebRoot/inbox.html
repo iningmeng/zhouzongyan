@@ -189,9 +189,25 @@
 											<div class="profile_img">	
 												<span class="prfil-img"><img src="images/in4.jpg" alt=""> </span> 
 												<div class="user-name">
-													<p>Malorum</p>
+													<p id="username"></p>
 													<span>Administrator</span>
 												</div>
+												<script type="text/javascript">
+													function getCookie(name)
+														{
+															var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+															if(arr=document.cookie.match(reg))
+																return unescape(arr[2]);
+															else
+																return null;
+														}
+													if(getCookie("USERS") != null){
+														
+														var array = getCookie("USERS").split(";");
+														document.getElementById("username").innerHTML = array[0];
+														
+													}
+												</script>
 												<i class="fa fa-angle-down"></i>
 												<i class="fa fa-angle-up"></i>
 												<div class="clearfix"></div>	
@@ -200,8 +216,30 @@
 										<ul class="dropdown-menu drp-mnu">
 											<li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li> 
 											<li> <a href="#"><i class="fa fa-user"></i> Profile</a> </li> 
-											<li> <a href="#"><i class="fa fa-sign-out"></i> Logout</a> </li>
+											<li> <a id="sign-out" href="javascript:void(0);"><i class="fa fa-sign-out"></i> Logout</a> </li>
 										</ul>
+										<script type="text/javascript">
+											function getCookie(name)
+											{
+												var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+												if(arr=document.cookie.match(reg))
+													return unescape(arr[2]);
+												else
+													return null;
+											}
+											function delCookie(name)
+											{
+												var exp = new Date();
+												exp.setTime(exp.getTime() - 1);
+												var cval=getCookie(name);
+												if(cval!=null)
+													document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+											}
+											document.getElementById("sign-out").onclick = function(){
+												delCookie("USERS");
+												window.location = "/blog/login.jsp";
+											};
+										</script>
 									</li>
 								</ul>
 							</div>
@@ -251,6 +289,7 @@
 	</style>
    <script type="text/javascript">
    function addComment(){
+   	if(getCookie("USERS") != null){
    		$.ajax({
 		type:"POST",
 		url:"/blog/AddComment",
@@ -263,7 +302,11 @@
 			alert("失败");
 		}
 	});
-   }
+	}else{
+		alert("请先登录");
+		window.location="/blog/login.jsp";
+	}
+  }
 	function GetQueryString(name)
 	{
 	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -345,38 +388,7 @@
 									<ul id="menu" >
 										<li><a href="index.html"><i class="fa fa-tachometer"></i> <span>首页</span><div class="clearfix"></div></a></li>
 									<li><a href="gallery.html"><i class="fa fa-picture-o" aria-hidden="true"></i><span>发博客</span><div class="clearfix"></div></a></li>
-									<li id="menu-academico" ><a href="charts.html"><i class="fa fa-bar-chart"></i><span>Charts</span><div class="clearfix"></div></a></li>
-									 <li id="menu-academico" ><a href="#"><i class="fa fa-list-ul" aria-hidden="true"></i><span> Short Codes</span> <span class="fa fa-angle-right" style="float: right"></span><div class="clearfix"></div></a>
-										   <ul id="menu-academico-sub" >
-										   <li id="menu-academico-avaliacoes" ><a href="icons.html">Icons</a></li>
-											<li id="menu-academico-avaliacoes" ><a href="typography.html">Typography</a></li>
-											<li id="menu-academico-avaliacoes" ><a href="faq.html">Faq</a></li>
-										  </ul>
-										</li>
-									<li id="menu-academico" ><a href="errorpage.html"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i><span>Error Page</span><div class="clearfix"></div></a></li>
-									  <li id="menu-academico" ><a href="#"><i class="fa fa-cogs" aria-hidden="true"></i><span> UI Components</span> <span class="fa fa-angle-right" style="float: right"></span><div class="clearfix"></div></a>
-										   <ul id="menu-academico-sub" >
-										   <li id="menu-academico-avaliacoes" ><a href="button.html">Buttons</a></li>
-											<li id="menu-academico-avaliacoes" ><a href="grid.html">Grids</a></li>
-										  </ul>
-										</li>
-									 <li><a href="tabels.html"><i class="fa fa-table"></i>  <span>Tables</span><div class="clearfix"></div></a></li>
-									<li><a href="maps.html"><i class="fa fa-map-marker" aria-hidden="true"></i>  <span>Maps</span><div class="clearfix"></div></a></li>
-							        <li id="menu-academico" ><a href="#"><i class="fa fa-file-text-o"></i>  <span>Pages</span> <span class="fa fa-angle-right" style="float: right"></span><div class="clearfix"></div></a>
-										 <ul id="menu-academico-sub" >
-											<li id="menu-academico-boletim" ><a href="calendar.html">Calendar</a></li>
-											<li id="menu-academico-avaliacoes" ><a href="signin.html">Sign In</a></li>
-											<li id="menu-academico-avaliacoes" ><a href="signup.html">Sign Up</a></li>
-											
-
-										  </ul>
-									 </li>
-									<li><a href="#"><i class="fa fa-check-square-o nav_icon"></i><span>Forms</span> <span class="fa fa-angle-right" style="float: right"></span><div class="clearfix"></div></a>
-									  <ul>
-										<li><a href="input.html"> Input</a></li>
-										<li><a href="validation.html">Validation</a></li>
-									</ul>
-									</li>
+									<li id="menu-academico" ><a href="charts.html"><i class="fa fa-bar-chart"></i><span>我的评论</span><div class="clearfix"></div></a></li>
 								  </ul>
 								</div>
 							  </div>

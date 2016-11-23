@@ -1,6 +1,8 @@
 package com.inm.servlet;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -27,10 +29,11 @@ public class AddComment extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		ConnDB con = new ConnDB();
 		String userName = "'"+request.getParameter("account")+"'";
 		String Index = "'"+request.getParameter("indexs")+"'";
-		String Time = "'"+TimeUtil.getNowTime()+"'";
+		String Time = "'"+format.format(new Date())+"'";
 		String Message = "'"+request.getParameter("Comment")+"'";
 		try {
 			con.openConn();

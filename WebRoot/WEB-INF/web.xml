@@ -29,6 +29,21 @@
     <servlet-name>SearchComment</servlet-name>
     <servlet-class>com.inm.servlet.SearchComment</servlet-class>
   </servlet>
+  <servlet>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>com.inm.servlet.LoginServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>RegisterServlet</servlet-name>
+		<servlet-class>servlet.RegisterServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>QueryTitleByAccount</display-name>
+		<servlet-name>QueryTitleByAccount</servlet-name>
+		<servlet-class>com.inm.servlet.QueryTitleByAccount</servlet-class>
+	</servlet>
 
 
   <servlet-mapping>
@@ -51,6 +66,30 @@
     <servlet-name>SearchComment</servlet-name>
     <url-pattern>/SearchComment</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/LoginServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RegisterServlet</servlet-name>
+		<url-pattern>/RegisterServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>QueryTitleByAccount</servlet-name>
+		<url-pattern>/QueryTitleByAccount</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	<filter>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>com.inm.filter.LoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<!-- 这里表示 对所有jsp页面进行拦截 -->
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
   
   	
   <welcome-file-list>
